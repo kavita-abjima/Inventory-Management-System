@@ -11,9 +11,9 @@
     @Html.AntiForgeryToken()
 
     <div class= "col-md-6" >
-        @Html.LabelFor(model => model.UserName)
-        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.UserName)
+        @Html.LabelFor(model => model.Username)
+        @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Username)
     </div>
 
     <div class="col-md-6">
@@ -21,19 +21,13 @@
         @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Password)
     </div>
-
-    <div class="col-md-6">
-        @Html.LabelFor(model => model.Email)
-        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Email)
-    </div>
    
     <br/>
 
     <div class="col-md-6">
         <input type="submit" value="Login" class="btn btn-primary" />
 
-        <input asp-action="Signup" type="submit" value="SignUp" class="btn btn-primary" />
+        <input asp-controller="Account" asp-action="SignUp" type="submit" value="SignUp" class="btn btn-primary" />
     </div>
 
     <div class="col-md-6">
