@@ -2,15 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using InventoryManagementSystem.Models;
 using System.Diagnostics;
+using InventoryManagementSystem.Repository;
 
 namespace  InventoryManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ISignUpRepository signupRepository;
+
+        public HomeController(ILogger<HomeController> logger, ISignUpRepository signupRepository)
         {
             _logger = logger;
+            this.signupRepository = signupRepository;
         }
 
         public IActionResult Index()
@@ -18,7 +22,40 @@ namespace  InventoryManagementSystem.Controllers
             return View();
         }
 
-        public IActionResult Signup()
+        
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignUp(Users user)
+        {
+            if (ModelState.IsValid)
+            {
+
+                try
+                {
+                    bool U = await signupRepository.AddUser(user);
+                    if (U)
+                    {
+                        return RedirectToAction("SignupSuccess");
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
+                
+            }
+
+            // If the model state is not valid, return the signup view with validation errors
+            return View(user);
+        }
+
+        public IActionResult Privacy()
         {
             return View();
         }

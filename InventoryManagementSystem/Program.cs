@@ -1,10 +1,18 @@
-
+using InventoryManagementSystem.Repository;
+using MySql.Data.MySqlClient;
+using InventoryManagementSystem;
+using Dapper;
+using Microsoft.Data.SqlClient;
+using InventoryManagementSystem;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 //builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<DapperContext>();
+builder.Services.AddScoped<ISignUpRepository,SignUpRepository>();
+builder.Services.AddTransient(x => new MySqlConnection(builder.Configuration.GetConnectionString("conn")));
 
 var app = builder.Build();
 

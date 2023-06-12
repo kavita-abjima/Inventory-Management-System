@@ -1,43 +1,73 @@
-﻿using Dapper;
+﻿using Microsoft.AspNetCore.Mvc;
 using InventoryManagementSystem.Models;
+using InventoryManagementSystem;
 using System.Data;
 using System.Data.SqlClient;
+using Dapper;
+using System.Data.Common;
 
 namespace InventoryManagementSystem.Repository
 {
     public class SignUpRepository : ISignUpRepository
     {
-        private readonly string _connectionString;
+        private readonly DapperContext _context;
 
-        public SignUpRepository(IConfiguration configuration)
+        public SignUpRepository(DapperContext context)
         {
-            _connectionString = configuration.GetConnectionString("conn");
+            _context = context;
         }
-
-        public void AddUser(Users user)
+        public async Task<bool> AddUser(Users user)
         {
-            try
+            using (var connection = _context.CreateConnection())
             {
-                using (var connection = new SqlConnection(_connectionString))
-                {
-                    connection.Open();
+                var parameters = new DynamicParameters();
+                parameters.Add("@Username", user.Username);
+                parameters.Add("@Password", user.Password);
+                parameters.Add("@Email", user.Email);
+                parameters.Add("@UserType", user.UserType);
+                parameters.Add("@SignupSuccess", dbType: DbType.Boolean, direction: ParameterDirection.Output);
 
 
-                    string storedProcedureName = "SignupUser";
 
-                    var parameters = new DynamicParameters();
-                    parameters.Add("@Username", user.Username);
-                    parameters.Add("@Password", user.Password);
-                    parameters.Add("@Email", user.Email);
-                    parameters.Add("@UserType", user.UserType);
-                    connection.Execute(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
-                }
-            }
-            catch (Exception ex)
-            {
+                await connection.ExecuteAsync("SignupUser", parameters, commandType: CommandType.StoredProcedure);
+                bool signupSuccess = parameters.Get<bool>("@SignupSuccess");
 
-                Console.WriteLine("An error occurred while adding a user: " + ex.Message);
+
+
+                return signupSuccess;
+
             }
         }
+        //public async Task<bool> AddUser(Users user)
+        //{
+        //    try
+        //    {
+        //        using (var connection = _context.CreateConnection())
+        //        {
+
+
+        //            string storedProcedureName = "SignupUser";
+
+        //            var parameters = new DynamicParameters();
+        //            parameters.Add("@Username", user.Username);
+        //            parameters.Add("@Password", user.Password);
+        //            parameters.Add("@Email", user.Email);
+        //            parameters.Add("@UserType", user.UserType);
+
+        //            int affectedRows = await connection.ExecuteAsync(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
+
+        //            bool isSigned = (affectedRows > 0); 
+
+        //            return isSigned;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return false; 
+        //    }
+        //}
+
+
     }
 }

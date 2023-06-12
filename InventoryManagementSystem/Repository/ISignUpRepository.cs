@@ -4,6 +4,7 @@ namespace InventoryManagementSystem.Repository
 {
     public interface ISignUpRepository
     {
-        void AddUser(Users user);
+
+        public Task<bool> AddUser(Users user);
     }
 }
