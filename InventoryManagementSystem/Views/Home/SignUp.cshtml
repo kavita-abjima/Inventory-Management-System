@@ -1,39 +1,51 @@
 ﻿@model InventoryManagementSystem.Models.Users
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Signup";
 }
 
-<h2>Login</h2>
+<h2>Register</h2>
 
-@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+@using (Html.BeginForm("SignUp", "Home", FormMethod.Post))
 {
-    @Html.AntiForgeryToken()
+    @*@Html.AntiForgeryToken()*@
 
-    <div class= "col-md-6" >
+    <div class="col-md-6">
         @Html.LabelFor(model => model.Username)
         @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
         @Html.ValidationMessageFor(model => model.Username)
     </div>
 
+
     <div class="col-md-6">
         @Html.LabelFor(model => model.Password)
         @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Password)
+        @Html.ValidationMessageFor(model => model.Password,"", new { @class = "text-danger" })
+    </div>
+
+    
+
+    <div class="col-md-6">
+        @Html.LabelFor(model => model.Email)
+        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Email,"", new { @class = "text-danger" })
     </div>
     <div class="col-md-6">
         @Html.LabelFor(model => model.UserType)
         @Html.DropDownListFor(model => model.UserType, new SelectList (new [] {"Admin","Employee"}),"Select User",new {@class="form-control"})
         @Html.ValidationMessageFor(model => model.UserType,"", new { @class = "text-danger" })
     </div>
+    <br />
+
     <br/>
 
-    <div class="col-md-6">
-        <input type="submit" value="Login" class="btn btn-primary" /></div>
-
-        @*<input asp-action="SignUp" type="submit" value="SignUp" class="btn btn-primary" />*@
-    <div>
-        <a asp-action="SignUp">Not registered yet? SignUp</a>
+     <div class="col-md-6">
+        <input type="submit" value="Register" class="btn btn-primary" />
     </div>
+
+    <div>
+        <a asp-action="Index">Allready Registered ? Login</a>
+    </div>
+
 
 }

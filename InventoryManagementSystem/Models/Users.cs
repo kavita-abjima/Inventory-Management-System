@@ -20,6 +20,6 @@ namespace InventoryManagementSystem.Models
         [RegularExpression("^[\\w\\.-]+@[\\w\\.-]+\\.\\w+$", ErrorMessage = "Invalid Email")]
         public string? Email { get; set; }
         [Required]
-        public string UserType { get; set; } = null!;
+        public string? UserType { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using InventoryManagementSystem.Models;
 using System.Diagnostics;
 using InventoryManagementSystem.Repository;
 
-namespace  InventoryManagementSystem.Controllers
+namespace InventoryManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
@@ -17,12 +17,75 @@ namespace  InventoryManagementSystem.Controllers
             this.signupRepository = signupRepository;
         }
 
-        public IActionResult Index()
+        ////public IActionResult Index()
+        ////{
+        ////    return View();
+        ////}
+        //public async Task<IActionResult> Index(string username, string password, string userType)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //            bool U = await signupRepository.LoginUser(username, password,userType);
+        //            if (U)
+        //            {
+        //                return RedirectToAction("LoginSuccess");
+
+        //            }
+        //            else
+        //            {
+        //                return RedirectToAction("Index");
+        //            }
+
+        //    }
+        //    return View();
+        //}
+        public async Task<IActionResult> Index(string username, string password, string userType)
         {
+            if (ModelState.IsValid)
+            {
+                bool U = await signupRepository.LoginUser(username, password, userType);
+                if (U)
+                {
+                    if (userType == "Admin")
+                    {
+                        // Redirect to admin dashboard
+                        return RedirectToAction("AdminView");
+                    }
+                    else if (userType == "Employee")
+                    {
+                        // Redirect to user dashboard
+                        return RedirectToAction("EmployeeView");
+                    }
+                    else
+                    {
+                        // Invalid user type
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    // Invalid credentials
+                    return RedirectToAction("Index");
+                }
+            }
+            return View();
+        }
+        public IActionResult EmployeeView()
+        {
+            
+
             return View();
         }
 
-        
+        public IActionResult AdminView()
+        {
+            
+
+            return View();
+        }
+
+
+       
         public IActionResult SignUp()
         {
             return View();
@@ -33,27 +96,62 @@ namespace  InventoryManagementSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                try
+                bool U = await signupRepository.AddUser(user);
+                if (U)
                 {
-                    bool U = await signupRepository.AddUser(user);
-                    if (U)
+                    if (user.UserType == "Admin") 
                     {
-                        return RedirectToAction("SignupSuccess");
+                        // Redirect to admin dashboard
+                        return RedirectToAction("AdminView");
+                    }
+                    else if (user.UserType== "Employee")
+                    {
+                        // Redirect to user dashboard
+                        return RedirectToAction("EmployeeView");
+                    }
+                    else
+                    {
+                        // Invalid user type
+                        return RedirectToAction("SignUp");
                     }
                 }
-                catch (Exception)
+                else
                 {
-
-                    throw;
+                    // Invalid credentials
+                    return RedirectToAction("SignUp");
                 }
-
-                
             }
-
-            // If the model state is not valid, return the signup view with validation errors
-            return View(user);
+            return View();
         }
+
+
+
+
+        //public async Task<IActionResult> SignUp(Users user)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+
+        //        try
+        //        {
+        //            bool U = await signupRepository.AddUser(user);
+        //            if (U)
+        //            {
+        //                return RedirectToAction("SignupSuccess");
+        //            }
+        //        }
+        //        catch (Exception)
+        //        {
+
+        //            throw;
+        //        }
+
+
+        //    }
+
+        //    // If the model state is not valid, return the signup view with validation errors
+        //    return View(user);
+        //}
 
         public IActionResult Privacy()
         {

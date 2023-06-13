@@ -27,15 +27,27 @@ namespace InventoryManagementSystem.Repository
                 parameters.Add("@UserType", user.UserType);
                 parameters.Add("@SignupSuccess", dbType: DbType.Boolean, direction: ParameterDirection.Output);
 
-
-
                 await connection.ExecuteAsync("SignupUser", parameters, commandType: CommandType.StoredProcedure);
-                bool signupSuccess = parameters.Get<bool>("@SignupSuccess");
 
-
+                var signupSuccess = parameters.Get<bool>("@SignupSuccess");
 
                 return signupSuccess;
+            }
+        }
+        public async Task<bool> LoginUser(string username, string password, string userType)
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                var parameters = new DynamicParameters();
+                parameters.Add("@Username", username);
+                parameters.Add("@Password", password);
+                parameters.Add("@UserType", userType);
+                parameters.Add("@LoginSuccess", dbType: DbType.Boolean, direction: ParameterDirection.Output);
 
+                await connection.ExecuteAsync("LoginProcedure", parameters, commandType: CommandType.StoredProcedure);
+                bool loginSuccess = parameters.Get<bool>("@LoginSuccess");
+
+                return loginSuccess;
             }
         }
         //public async Task<bool> AddUser(Users user)
