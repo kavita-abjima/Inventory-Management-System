@@ -6,14 +6,8 @@ namespace InventoryManagementSystem.Models
     {
 
         public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public int ProductQuantity { get; set; }
-        public decimal ProductPrice { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public int CreatedBy { get; set; }
-        public DateTime ModifiedDate { get; set; }
-        public int ModifiedBy { get; set; }
-        public bool Status { get; set; }
-
+        public string ProductName { get; set; } = null!;
+        public int Quantity { get; set; }
+        public decimal Price { get; set; }
     }
 }

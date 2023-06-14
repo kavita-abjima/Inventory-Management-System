@@ -34,14 +34,14 @@ namespace InventoryManagementSystem.Repository
                 return signupSuccess;
             }
         }
-        public async Task<bool> LoginUser(string username, string password, string userType)
+        public async Task<bool> LoginUser(Login login)
         {
             using (var connection = _context.CreateConnection())
             {
                 var parameters = new DynamicParameters();
-                parameters.Add("@Username", username);
-                parameters.Add("@Password", password);
-                parameters.Add("@UserType", userType);
+                parameters.Add("@Username", login.Username);
+                parameters.Add("@Password", login.Password);
+                parameters.Add("@UserType", login.UserType);
                 parameters.Add("@LoginSuccess", dbType: DbType.Boolean, direction: ParameterDirection.Output);
 
                 await connection.ExecuteAsync("LoginProcedure", parameters, commandType: CommandType.StoredProcedure);

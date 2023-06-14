@@ -13,7 +13,7 @@
     <div class="col-md-6">
         @Html.LabelFor(model => model.Username)
         @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Username)
+        @Html.ValidationMessageFor(model => model.Username,"", new { @class = "text-danger" })
     </div>
 
 

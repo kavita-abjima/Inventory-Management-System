@@ -7,6 +7,6 @@ namespace InventoryManagementSystem.Repository
 
         public Task<bool> AddUser(Users user);
 
-        public Task<bool> LoginUser(string username, string password, string userType);
+        public Task<bool> LoginUser(Login login);
     }
 }
