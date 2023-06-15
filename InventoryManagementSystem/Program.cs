@@ -12,6 +12,7 @@ builder.Services.AddControllersWithViews();
 //builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddScoped<ISignUpRepository,SignUpRepository>();
+builder.Services.AddScoped<IProductRepository,ProductRepository>();
 builder.Services.AddTransient(x => new MySqlConnection(builder.Configuration.GetConnectionString("conn")));
 
 var app = builder.Build();

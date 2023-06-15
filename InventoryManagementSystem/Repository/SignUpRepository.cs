@@ -50,36 +50,6 @@ namespace InventoryManagementSystem.Repository
                 return loginSuccess;
             }
         }
-        //public async Task<bool> AddUser(Users user)
-        //{
-        //    try
-        //    {
-        //        using (var connection = _context.CreateConnection())
-        //        {
-
-
-        //            string storedProcedureName = "SignupUser";
-
-        //            var parameters = new DynamicParameters();
-        //            parameters.Add("@Username", user.Username);
-        //            parameters.Add("@Password", user.Password);
-        //            parameters.Add("@Email", user.Email);
-        //            parameters.Add("@UserType", user.UserType);
-
-        //            int affectedRows = await connection.ExecuteAsync(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
-
-        //            bool isSigned = (affectedRows > 0); 
-
-        //            return isSigned;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return false; 
-        //    }
-        //}
-
-
+        
     }
 }

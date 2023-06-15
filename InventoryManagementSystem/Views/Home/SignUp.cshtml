@@ -6,6 +6,14 @@
 
 <h2>Register</h2>
 
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["AlertMessage"]
+    </div>
+}
+
+
 @using (Html.BeginForm("SignUp", "Home", FormMethod.Post))
 {
     @*@Html.AntiForgeryToken()*@
@@ -40,7 +48,7 @@
     <br/>
 
      <div class="col-md-6">
-        <input type="submit" value="Register" class="btn btn-primary" />
+        <input type="submit" value="Register" class="btn btn-success" />
     </div>
 
     <div>

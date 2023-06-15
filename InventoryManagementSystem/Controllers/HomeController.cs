@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using InventoryManagementSystem.Models;
 using System.Diagnostics;
 using InventoryManagementSystem.Repository;
+using System.Data.SqlClient;
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -17,9 +18,9 @@ namespace InventoryManagementSystem.Controllers
             _logger = logger;
             this.signupRepository = signupRepository;
             this.productRepository = productRepository;
+            
+
         }
-
-
 
         public IActionResult SignUp()
         {
@@ -31,35 +32,69 @@ namespace InventoryManagementSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool U = await signupRepository.AddUser(user);
-                if (U)
+                try
                 {
-                    if (user.UserType == "Admin")
+                    bool U = await signupRepository.AddUser(user);
+                    if (U)
                     {
-                        // Redirect to admin dashboard
-                        return RedirectToAction("AdminView");
-                    }
-                    else if (user.UserType == "Employee")
-                    {
-                        // Redirect to user dashboard
-                        return RedirectToAction("EmployeeView");
+                        if (user.UserType == "Admin")
+                        {
+                            return RedirectToAction("ProductView");
+                        }
+                        else if (user.UserType == "Employee")
+                        {
+                            return RedirectToAction("EmployeeView");
+                        }
+                        else
+                        {
+                            return View();
+                        }
                     }
                     else
                     {
-                        // Invalid user type
-                        return RedirectToAction("SignUp");
+                        return View();
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    // Invalid credentials
-                    return RedirectToAction("SignUp");
+                    // Handle the custom exception thrown by the stored procedure
+                   
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                        return View();
+                    
                 }
             }
             return View();
         }
 
-        
+        //public async Task<IActionResult> SignUp(Users user)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        bool U = await signupRepository.AddUser(user);
+        //        if (U)
+        //        {
+        //            if (user.UserType == "Admin")
+        //            {
+        //                // Redirect to admin dashboard
+        //                return RedirectToAction("ProductView");
+        //            }
+        //            else if (user.UserType == "Employee")
+        //            {
+        //                return RedirectToAction("EmployeeView");
+        //            }
+        //            else
+        //            {
+        //                return RedirectToAction("SignUp");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            return View();
+        //        }
+        //    }
+        //    return View();
+        //}
 
         public async Task<IActionResult> Index(Login login)
         {
@@ -70,61 +105,61 @@ namespace InventoryManagementSystem.Controllers
                 {
                     if (login.UserType == "Admin")
                     {
-                        // Redirect to admin dashboard
                         return RedirectToAction("ProductView");
                     }
                     else if (login.UserType == "Employee")
                     {
-                        // Redirect to user dashboard
                         return RedirectToAction("EmployeeView");
                     }
                     else
                     {
-                        // Invalid user type
-                        return RedirectToAction("Index");
+                        return View();
                     }
                 }
                 else
                 {
-                    // Invalid credentials
-                    ModelState.AddModelError(string.Empty, "Invalid username or password");
+                    return View();
                 }
+
             }
             return View();
         }
 
         public IActionResult EmployeeView()
-        {
-            
-
+        {   
             return View();
         }
 
-        public IActionResult ProductView()
-        {
-            
-
-            return View();
-        }
+        //public IActionResult ProductView()
+        //{      
+        //    return View();
+        //}
 
         public ActionResult AddProduct()
         {
             return View();
         }
+
+
         [HttpPost]
         public async Task<IActionResult> AddProduct(Product product)
         {
             if (ModelState.IsValid)
             {
-                bool U = await productRepository.CreateProduct(product);
-                return RedirectToAction("ProductView");
+                bool isCreated = await productRepository.CreateProduct(product);
+                if (isCreated)
+                {
+                    return RedirectToAction("ProductView"); 
+                }
             }
 
-            return RedirectToAction("AddProduct");
+            return View(); 
         }
-
-
-
+        public async Task<IActionResult> ProductView()
+        {
+            List<Product> products = await productRepository.GetAllProduct();
+            return View(products);
+        }
 
         public IActionResult Privacy()
         {

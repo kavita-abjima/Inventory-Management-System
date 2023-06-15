@@ -8,7 +8,7 @@
 
 @using (Html.BeginForm("Index", "Home", FormMethod.Post))
 {
-   
+
     <div class="col-md-6">
         @Html.LabelFor(model => model.Username)
         @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
@@ -36,7 +36,7 @@
     </div>
 
     <div>
-        <a asp-action="SignUp">Allready Login ? SignUp</a>
+        <a asp-action="SignUp">If not Registered? SignUp</a>
     </div>
 
 
