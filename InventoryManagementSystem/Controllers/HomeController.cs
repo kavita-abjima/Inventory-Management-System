@@ -4,6 +4,7 @@ using InventoryManagementSystem.Models;
 using System.Diagnostics;
 using InventoryManagementSystem.Repository;
 using System.Data.SqlClient;
+using Microsoft.CodeAnalysis;
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -155,10 +156,56 @@ namespace InventoryManagementSystem.Controllers
 
             return View(); 
         }
+
+        //ProductDetails View
         public async Task<IActionResult> ProductView()
         {
             List<Product> products = await productRepository.GetAllProduct();
             return View(products);
+        }
+
+        //Update the product
+        public IActionResult UpdateProduct(int id)
+        {
+            Product existingProduct = productRepository.GetProductById(id);
+
+            if (existingProduct == null)
+            {
+                return NotFound();
+            }
+
+            return View(existingProduct);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateProduct(Product updatedProduct)
+        {
+            if (ModelState.IsValid)
+            {
+                productRepository.EditProduct(updatedProduct);
+
+                return RedirectToAction("ProductView", new { id = updatedProduct.ProductId });
+            }
+
+            return View(updatedProduct);
+        }
+        //Details button
+        public IActionResult ProductDetails(int id)
+        {
+            Product existingProduct = productRepository.GetProductById(id);
+
+            if (existingProduct == null)
+            {
+                return NotFound();
+            }
+
+            return View(existingProduct);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            productRepository.DeleteProduct(id);
+            return RedirectToAction("ProductView");
         }
 
         public IActionResult Privacy()
