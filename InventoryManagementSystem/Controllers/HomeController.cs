@@ -13,14 +13,14 @@ namespace InventoryManagementSystem.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ISignUpRepository signupRepository;
         private readonly IProductRepository productRepository;
+        private readonly IPurchaseRepository purchaseRepository;
 
-        public HomeController(ILogger<HomeController> logger, ISignUpRepository signupRepository, IProductRepository productRepository)
+        public HomeController(ILogger<HomeController> logger, ISignUpRepository signupRepository, IProductRepository productRepository, IPurchaseRepository purchaseRepository)
         {
             _logger = logger;
             this.signupRepository = signupRepository;
             this.productRepository = productRepository;
-            
-
+            this.purchaseRepository = purchaseRepository;           
         }
 
         public IActionResult SignUp()
@@ -44,7 +44,7 @@ namespace InventoryManagementSystem.Controllers
                         }
                         else if (user.UserType == "Employee")
                         {
-                            return RedirectToAction("EmployeeView");
+                            return RedirectToAction("DisplayPurchase");
                         }
                         else
                         {
@@ -110,7 +110,7 @@ namespace InventoryManagementSystem.Controllers
                     }
                     else if (login.UserType == "Employee")
                     {
-                        return RedirectToAction("EmployeeView");
+                        return RedirectToAction("DisplayPurchase");
                     }
                     else
                     {
@@ -126,15 +126,14 @@ namespace InventoryManagementSystem.Controllers
             return View();
         }
 
-        public IActionResult EmployeeView()
-        {   
-            return View();
+        //purchase
+        public async Task<IActionResult> DisplayPurchase()
+        {
+            List<Purchase> purchase = await purchaseRepository.GetAllPurchase();
+            return View(purchase);
         }
 
-        //public IActionResult ProductView()
-        //{      
-        //    return View();
-        //}
+
 
         public ActionResult AddProduct()
         {
@@ -167,7 +166,7 @@ namespace InventoryManagementSystem.Controllers
         //Update the product
         public IActionResult UpdateProduct(int id)
         {
-            Product existingProduct = productRepository.GetProductById(id);
+            var existingProduct = productRepository.GetProductById(id);
 
             if (existingProduct == null)
             {
