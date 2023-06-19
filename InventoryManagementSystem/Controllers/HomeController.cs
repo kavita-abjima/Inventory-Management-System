@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using InventoryManagementSystem.Models;
 using System.Diagnostics;
-using InventoryManagementSystem.Repository;
 using System.Data.SqlClient;
 using Microsoft.CodeAnalysis;
+using InventoryManagementSystem.Infrastructure;
 
 namespace InventoryManagementSystem.Controllers
 {

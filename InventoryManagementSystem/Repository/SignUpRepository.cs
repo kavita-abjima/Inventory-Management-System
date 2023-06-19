@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using Dapper;
 using System.Data.Common;
+using InventoryManagementSystem.Infrastructure;
 
 namespace InventoryManagementSystem.Repository
 {

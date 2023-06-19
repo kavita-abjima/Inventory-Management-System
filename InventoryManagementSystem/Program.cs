@@ -4,6 +4,7 @@ using InventoryManagementSystem;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using InventoryManagementSystem;
+using InventoryManagementSystem.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
