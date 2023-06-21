@@ -44,7 +44,7 @@ namespace InventoryManagementSystem.Controllers
                         }
                         else if (user.UserType == "Employee")
                         {
-                            return RedirectToAction("DisplayPurchase");
+                            return RedirectToAction("DisplayPurchase","Purchase");
                         }
                         else
                         {
@@ -110,7 +110,7 @@ namespace InventoryManagementSystem.Controllers
                     }
                     else if (login.UserType == "Employee")
                     {
-                        return RedirectToAction("DisplayPurchase");
+                        return RedirectToAction("DisplayPurchase","Purchase");
                     }
                     else
                     {
@@ -127,14 +127,7 @@ namespace InventoryManagementSystem.Controllers
         }
 
         //purchase
-        public async Task<IActionResult> DisplayPurchase()
-        {
-            List<Purchase> purchase = await purchaseRepository.GetAllPurchase();
-            return View(purchase);
-        }
-
-
-
+       
         public ActionResult AddProduct()
         {
             return View();
