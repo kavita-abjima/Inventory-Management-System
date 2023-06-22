@@ -10,7 +10,7 @@ namespace InventoryManagementSystem.Models
            public int Purchase_quantity { get; set; }
 
            public decimal Purchase_price { get; set; }
-           public DateTime PurchaseDate { get; set; }
+         
            public string? PurchaseBy { get; set; }
            public bool Status { get; set; }
        
