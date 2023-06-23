@@ -3,41 +3,58 @@
 @{
     ViewBag.Title = "Login";
 }
-
+<head>
+    <style>
+       .Container{
+           position: absolute;
+           height:80%;
+           width:80%;
+           background-color:cadetblue;
+           align-item:center;
+           justify-content:center;         
+       }
+    </style>
+</head>
+<div class="Container">
 <h2>Login</h2>
+   
 
 @using (Html.BeginForm("Index", "Home", FormMethod.Post))
 {
+        <form action="/Login/Login" method="post">
+            <div class="col-md-4 text-field">
+                <label for="Username">Username</label>
+                <input type="text" id="Username" name="Username" class="form-control" required>
+                <span class="text-danger">@Html.ValidationMessageFor(model => model.Username)</span>
+            </div>
 
-    <div class="col-md-6">
-        @Html.LabelFor(model => model.Username)
-        @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Username,"", new { @class = "text-danger" })
-    </div>
+            <div class="col-md-4 text-field">
+                <label for="Password">Password</label>
+                <input type="password" id="Password" name="Password" class="form-control" required>
+                <span class="text-danger">@Html.ValidationMessageFor(model => model.Password)</span>
+            </div>
 
+            <div class="col-md-4 text-field">
+                <label for="UserType">User Type</label>
+                <select id="UserType" name="UserType" class="form-control">
+                    <option value="">Select User Type</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Employee">Employee</option>
+                </select>
+                <span class="text-danger">@Html.ValidationMessageFor(model => model.UserType)</span>
+            </div>
+            <br />
 
-    <div class="col-md-6">
-        @Html.LabelFor(model => model.Password)
-        @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Password,"", new { @class = "text-danger" })
-    </div>
+            <br />
 
-    <div class="col-md-6">
-        @Html.LabelFor(model => model.UserType)
-        @Html.DropDownListFor(model => model.UserType, new SelectList (new [] {"Admin","Employee"}),"Select User",new {@class="form-control"})
-        @Html.ValidationMessageFor(model => model.UserType,"", new { @class = "text-danger" })
-    </div>
-    <br />
+            <div class="col-md-4">
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </div>
 
-    <br />
-
-    <div class="col-md-6">
-        <input type="submit" value="Login" class="btn btn-primary" />
-    </div>
-
-    <div>
-        <a asp-action="SignUp">If not Registered? SignUp</a>
-    </div>
-
+            <div style="color:black;">
+                <a asp-action="SignUp">If not Registered? SignUp</a>
+            </div>
+        </form>
 
 }
+</div>

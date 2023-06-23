@@ -96,7 +96,11 @@ namespace InventoryManagementSystem.Controllers
         //    }
         //    return View();
         //}
-
+        public IActionResult Index()
+        {
+            return View();
+        }
+        [HttpPost]
         public async Task<IActionResult> Index(Login login)
         {
             if (ModelState.IsValid)
@@ -114,6 +118,7 @@ namespace InventoryManagementSystem.Controllers
                     }
                     else
                     {
+                       
                         return View();
                     }
                 }
