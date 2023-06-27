@@ -72,12 +72,18 @@ namespace InventoryManagementSystem.Controllers
         //{
         //    if (ModelState.IsValid)
         //    {
-        //        bool U = await signupRepository.AddUser(user);
-        //        if (U)
+        //        bool isUserNameExists = await signupRepository.IsUserNameExists(user.Username);
+        //        if (isUserNameExists)
+        //        {
+        //            ModelState.AddModelError("", "Username already exists"); // Add the error message to the ModelState
+        //            return View(user); // Return the view with the error message
+        //        }
+
+        //        bool isUserAdded = await signupRepository.AddUser(user);
+        //        if (isUserAdded)
         //        {
         //            if (user.UserType == "Admin")
         //            {
-        //                // Redirect to admin dashboard
         //                return RedirectToAction("ProductView");
         //            }
         //            else if (user.UserType == "Employee")
@@ -94,8 +100,10 @@ namespace InventoryManagementSystem.Controllers
         //            return View();
         //        }
         //    }
+
         //    return View();
         //}
+
         public IActionResult Index()
         {
             return View();
@@ -105,8 +113,8 @@ namespace InventoryManagementSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool U = await signupRepository.LoginUser(login);
-                if (U)
+                bool isUserLoggedIn = await signupRepository.LoginUser(login);
+                if (isUserLoggedIn)
                 {
                     if (login.UserType == "Admin")
                     {
@@ -114,25 +122,26 @@ namespace InventoryManagementSystem.Controllers
                     }
                     else if (login.UserType == "Employee")
                     {
-                        return RedirectToAction("DisplayPurchase","Purchase");
+                        return RedirectToAction("DisplayPurchase", "Purchase");
                     }
                     else
                     {
-                       
-                        return View();
+                        // Handle unknown user type (optional)
+                        return View("Error"); // Display an error view
                     }
                 }
                 else
                 {
-                    return View();
+                    ModelState.AddModelError("", "Invalid userName ID"); // Add the error message to the ModelState
+                    return View(login); // Return the view with the error message
                 }
-
             }
-            return View();
+
+            return View(login);
         }
 
         //purchase
-       
+
         public ActionResult AddProduct()
         {
             return View();

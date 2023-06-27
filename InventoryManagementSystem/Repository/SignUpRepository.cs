@@ -51,6 +51,18 @@ namespace InventoryManagementSystem.Repository
                 return loginSuccess;
             }
         }
-        
+        //public async Task<bool> IsUserNameExists(string username)
+        //{
+        //    using (var connection = _context.CreateConnection())
+        //    {
+        //        var parameters = new DynamicParameters();
+        //        parameters.Add("@Username", username);
+
+        //        var result = await connection.ExecuteScalarAsync<int>("SignupUser", parameters, commandType: CommandType.StoredProcedure);
+
+        //        return result > 0;
+        //    }
+        //}
+
     }
 }

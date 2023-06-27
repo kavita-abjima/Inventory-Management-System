@@ -3,30 +3,61 @@
 @{
     ViewBag.Title = "Login";
 }
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 <head>
     <style>
-       .Container{
-           position: absolute;
-           height:80%;
-           width:80%;
-           background-color:cadetblue;
-           align-item:center;
-           justify-content:center;         
-       }
+        .Container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 80%;
+            width: 80%;
+            background-color: cadetblue;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .text-field {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .input-label {
+            margin-right: 10px;
+        }
+
+        
+        
     </style>
 </head>
-<div class="Container">
+<div class="Container justify-content-center" >
 <h2>Login</h2>
    
 
 @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-{
+    {
+        <div class="box">
         <form action="/Login/Login" method="post">
-            <div class="col-md-4 text-field">
-                <label for="Username">Username</label>
-                <input type="text" id="Username" name="Username" class="form-control" required>
-                <span class="text-danger">@Html.ValidationMessageFor(model => model.Username)</span>
-            </div>
+
+                <div class="text-field">
+                    <div class="input-row">
+                        @Html.LabelFor(model => model.Username, new { @class = "input-label" })
+                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                </div>
 
             <div class="col-md-4 text-field">
                 <label for="Password">Password</label>
@@ -51,10 +82,13 @@
                 <input type="submit" value="Login" class="btn btn-primary" />
             </div>
 
-            <div style="color:black;">
-                <a asp-action="SignUp">If not Registered? SignUp</a>
+            <div>
+                <a asp-action="SignUp" style="color:black;">If not Registered? SignUp</a>
             </div>
         </form>
+
+        </div>
+
 
 }
 </div>

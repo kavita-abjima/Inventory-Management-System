@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace InventoryManagementSystem.Models
 {
@@ -12,5 +13,6 @@ namespace InventoryManagementSystem.Models
         public int Quantity { get; set; }
         [Required]
         public decimal Price { get; set; }
+       
     }
 }
