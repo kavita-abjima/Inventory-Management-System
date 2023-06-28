@@ -35,8 +35,15 @@ namespace InventoryManagementSystem.Controllers
             {
                 try
                 {
-                    bool U = await signupRepository.AddUser(user);
-                    if (U)
+                    bool userExists = await signupRepository.CheckUserExists(user.Email);
+                    if (userExists)
+                    {
+                        ModelState.AddModelError(string.Empty, "User already exists with the provided email address.");
+                        return View();
+                    }
+
+                    bool signupSuccess = await signupRepository.AddUser(user);
+                    if (signupSuccess)
                     {
                         if (user.UserType == "Admin")
                         {
@@ -44,7 +51,7 @@ namespace InventoryManagementSystem.Controllers
                         }
                         else if (user.UserType == "Employee")
                         {
-                            return RedirectToAction("DisplayPurchase","Purchase");
+                            return RedirectToAction("DisplayPurchase", "Purchase");
                         }
                         else
                         {
@@ -58,52 +65,15 @@ namespace InventoryManagementSystem.Controllers
                 }
                 catch (Exception ex)
                 {
-                    // Handle the custom exception thrown by the stored procedure
-                   
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                        return View();
-                    
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                    return View();
                 }
             }
+
             return View();
         }
 
-        //public async Task<IActionResult> SignUp(Users user)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        bool isUserNameExists = await signupRepository.IsUserNameExists(user.Username);
-        //        if (isUserNameExists)
-        //        {
-        //            ModelState.AddModelError("", "Username already exists"); // Add the error message to the ModelState
-        //            return View(user); // Return the view with the error message
-        //        }
-
-        //        bool isUserAdded = await signupRepository.AddUser(user);
-        //        if (isUserAdded)
-        //        {
-        //            if (user.UserType == "Admin")
-        //            {
-        //                return RedirectToAction("ProductView");
-        //            }
-        //            else if (user.UserType == "Employee")
-        //            {
-        //                return RedirectToAction("EmployeeView");
-        //            }
-        //            else
-        //            {
-        //                return RedirectToAction("SignUp");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            return View();
-        //        }
-        //    }
-
-        //    return View();
-        //}
-
+        //Login
         public IActionResult Index()
         {
             return View();
@@ -118,26 +88,36 @@ namespace InventoryManagementSystem.Controllers
                 {
                     if (login.UserType == "Admin")
                     {
+                        HttpContext.Session.SetString("UserType", "Admin");
                         return RedirectToAction("ProductView");
                     }
                     else if (login.UserType == "Employee")
                     {
+                        HttpContext.Session.SetString("UserType", "Employee");
                         return RedirectToAction("DisplayPurchase", "Purchase");
                     }
                     else
                     {
-                        // Handle unknown user type (optional)
-                        return View("Error"); // Display an error view
+                       
+                        return View("Error"); 
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid userName ID"); // Add the error message to the ModelState
-                    return View(login); // Return the view with the error message
+                    ModelState.AddModelError("", "Invalid userName ID"); 
+                    return View(login); 
                 }
             }
 
             return View(login);
+        }
+
+        //Logout
+        public IActionResult Logout()
+        {
+            
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
         }
 
         //purchase
@@ -163,9 +143,14 @@ namespace InventoryManagementSystem.Controllers
             return View(); 
         }
 
+
         //ProductDetails View
         public async Task<IActionResult> ProductView()
         {
+            if (HttpContext.Session.GetString("UserType") != "Admin")
+            {
+                return RedirectToAction("Index");
+            }
             List<Product> products = await productRepository.GetAllProduct();
             return View(products);
         }

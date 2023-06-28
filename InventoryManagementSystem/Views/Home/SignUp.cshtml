@@ -4,49 +4,132 @@
     ViewBag.Title = "Signup";
 }
 
-<h2>Register</h2>
+
+<head>
+    <style>
+        .Container {
+            position: relative;
+            height: 80vh; /* Use viewport height instead of a fixed value */
+            width: 90%;
+            background-color: #A7ECEE;
+            margin: 0 auto; /* Center the container horizontally */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
 
 
+        .text-field {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 10px;
+        }
 
-<div class="row justify-content-center">
+        .input-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .input-label {
+            margin-right: 10px;
+        }
+
+        .input-password-label{
+            margin-right: 16px;
+        }
+
+        .input-Email-label {
+            margin-right:40px;
+        }
+
+        .button {
+            position: relative;
+            right: 20px;
+            bottom: 25px;
+        }
+
+        .Login {
+            position: relative;
+            left: 32px;
+            bottom: 15px;
+        }
+    </style>
+</head>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div id="errorMessage" class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+    <script>
+        setTimeout(function () {
+            $('#errorMessage').fadeOut('slow');
+        }, 2000); 
+    </script>
+}
+
+
+<div class="Container">
+    
+    <h2>Register</h2>
+
 @using (Html.BeginForm("SignUp", "Home", FormMethod.Post))
 {
     @*@Html.AntiForgeryToken()*@
 
-    <div class="col-md-6">
-        @Html.LabelFor(model => model.Username)
-        @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Username,"", new { @class = "text-danger" })
-    </div>
+        <div class="text-field">
+            <div class="input-row">
+                @Html.LabelFor(model => model.Username,"UserName:", new { @class = "input-label" })
+                @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+        </div>
 
+        <div class="text-field">
+            <div class="input-row">
+                @Html.LabelFor(model => model.Password,"Password:", new { @class = "input-password-label" })
+                @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
 
-    <div class="col-md-6">
-        @Html.LabelFor(model => model.Password)
-        @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Password,"", new { @class = "text-danger" })
-    </div>
+        <div class="text-field">
+            <div class="input-row">
+                @Html.LabelFor(model => model.Email,"Email:", new { @class = "input-Email-label" })
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+            </div>
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
 
-    
+        <div class="text-field">
+            <div class="input-row">
+                @Html.LabelFor(model => model.UserType, "UserType:", new { @class = "input-label" })
+                <select id="UserType" name="UserType" class="form-control" style="width: 210px; padding:8px">
+                    <option value="">Select User Type</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Employee">Employee</option>
+                </select>
+</div>
+            @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
 
-    <div class="col-md-6">
-        @Html.LabelFor(model => model.Email)
-        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Email,"", new { @class = "text-danger" })
-    </div>
-    <div class="col-md-6">
-        @Html.LabelFor(model => model.UserType)
-        @Html.DropDownListFor(model => model.UserType, new SelectList (new [] {"Admin","Employee"}),"Select User",new {@class="form-control"})
-        @Html.ValidationMessageFor(model => model.UserType,"", new { @class = "text-danger" })
-    </div>
-    <br />
+        </div>
 
     <br/>
 
-     <div class="col-md-6">
+     <div class="button">
         <input type="submit" value="Register" class="btn btn-success" />
     </div>
 
-    <div>
+    <div class="Login">
         <a asp-action="Index">Allready Registered ? Login</a>
     </div>
 
