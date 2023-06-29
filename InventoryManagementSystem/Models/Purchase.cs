@@ -12,6 +12,10 @@ namespace InventoryManagementSystem.Models
 
         public int Purchase_quantity { get; set; }
         public decimal Purchase_price { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime PurchaseDate { get; set; }
         public string? PurchaseBy { get; set; }
         public bool Status { get; set; }
         //public IEnumerable<Product> ProductList { get; set; } = new List<Product>();
