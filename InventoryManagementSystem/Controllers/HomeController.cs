@@ -81,35 +81,36 @@ namespace InventoryManagementSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(Login login)
         {
-            if (ModelState.IsValid)
+            try
             {
-                bool isUserLoggedIn = await signupRepository.LoginUser(login);
-                if (isUserLoggedIn)
+                if (ModelState.IsValid)
                 {
-                    if (login.UserType == "Admin")
+                    bool isUserLoggedIn = await signupRepository.LoginUser(login);
+                    if (isUserLoggedIn)
                     {
-                        HttpContext.Session.SetString("UserType", "Admin");
-                        return RedirectToAction("ProductView");
+                        if (login.UserType == "Admin")
+                        {
+                            HttpContext.Session.SetString("UserType", "Admin");
+                            return RedirectToAction("ProductView");
+                        }
+                        else if (login.UserType == "Employee")
+                        {
+                            HttpContext.Session.SetString("UserType", "Employee");
+                            return RedirectToAction("DisplayPurchase", "Purchase");
+                        }
+                     
                     }
-                    else if (login.UserType == "Employee")
-                    {
-                        HttpContext.Session.SetString("UserType", "Employee");
-                        return RedirectToAction("DisplayPurchase", "Purchase");
-                    }
-                    else
-                    {
-                       
-                        return View("Error"); 
-                    }
+                   
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Invalid userName ID"); 
-                    return View(login); 
-                }
+
+                return View(login);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return View(login);
             }
 
-            return View(login);
         }
 
         //Logout
@@ -198,7 +199,7 @@ namespace InventoryManagementSystem.Controllers
             productRepository.DeleteProduct(id);
             return RedirectToAction("ProductView");
         }
-
+      
         public IActionResult Privacy()
         {
             return View();
