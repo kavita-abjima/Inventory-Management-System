@@ -3,15 +3,15 @@
 @{
     ViewBag.Title = "Login";
 }
-
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 <head>
     <style>
         .Container {
             position: relative;
-            height: 80vh; /* Use viewport height instead of a fixed value */
+            height: 80vh; 
             width: 90%;
             background-color: #A7ECEE;
-            margin: 0 auto; /* Center the container horizontally */
+            margin: 0 auto; 
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -61,7 +61,7 @@
 
                 <div class="text-field">
                     <div class="input-row">
-                        @Html.LabelFor(model => model.Username, new { @class = "input-label" })
+                        @Html.LabelFor(model => model.Username,"UserName:", new { @class = "input-label" })
                         @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
                     </div>
                     @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
@@ -69,7 +69,7 @@
 
                 <div class="text-field">
                     <div class="input-row">
-                        @Html.LabelFor(model => model.Password, new { @class = "input-label" })
+                        @Html.LabelFor(model => model.Password,"Password:", new { @class = "input-label" })
                         @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
                     </div>
                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })

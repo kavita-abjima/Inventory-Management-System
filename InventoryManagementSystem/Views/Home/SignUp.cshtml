@@ -9,10 +9,10 @@
     <style>
         .Container {
             position: relative;
-            height: 80vh; /* Use viewport height instead of a fixed value */
+            height: 80vh; 
             width: 90%;
             background-color: #A7ECEE;
-            margin: 0 auto; /* Center the container horizontally */
+            margin: 0 auto; 
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -84,8 +84,6 @@
 
 @using (Html.BeginForm("SignUp", "Home", FormMethod.Post))
 {
-    @*@Html.AntiForgeryToken()*@
-
         <div class="text-field">
             <div class="input-row">
                 @Html.LabelFor(model => model.Username,"UserName:", new { @class = "input-label" })

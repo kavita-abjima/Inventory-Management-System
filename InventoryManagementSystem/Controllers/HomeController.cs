@@ -10,14 +10,13 @@ namespace InventoryManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        
         private readonly ISignUpRepository signupRepository;
         private readonly IProductRepository productRepository;
         private readonly IPurchaseRepository purchaseRepository;
 
-        public HomeController(ILogger<HomeController> logger, ISignUpRepository signupRepository, IProductRepository productRepository, IPurchaseRepository purchaseRepository)
+        public HomeController(ISignUpRepository signupRepository, IProductRepository productRepository, IPurchaseRepository purchaseRepository)
         {
-            _logger = logger;
             this.signupRepository = signupRepository;
             this.productRepository = productRepository;
             this.purchaseRepository = purchaseRepository;           
@@ -132,16 +131,23 @@ namespace InventoryManagementSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(Product product)
         {
-            if (ModelState.IsValid)
+            try
             {
-                bool isCreated = await productRepository.CreateProduct(product);
-                if (isCreated)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("ProductView"); 
+                    bool isCreated = await productRepository.CreateProduct(product);
+                    if (isCreated)
+                    {
+                        return RedirectToAction("ProductView");
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+            }
 
-            return View(); 
+            return View();
         }
 
 
