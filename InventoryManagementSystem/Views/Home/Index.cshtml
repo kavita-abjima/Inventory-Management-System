@@ -8,10 +8,10 @@
     <style>
         .Container {
             position: relative;
-            height: 80vh; 
+            height: 80vh;
             width: 90%;
             background-color: #A7ECEE;
-            margin: 0 auto; 
+            margin: 0 auto;
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -19,6 +19,12 @@
             justify-content: center;
         }
 
+        .profile-picture {
+            width: 200px; 
+            height: 200px; 
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
 
         .text-field {
             display: flex;
@@ -42,26 +48,31 @@
             right: 32px;
             bottom: 25px;
         }
-        .signup{
+
+        .signup {
             position: relative;
             left: 22px;
             bottom: 15px;
         }
-        
+        .user{
+            position:relative;
+            left:30px;
+        }
     </style>
 </head>
 <div class="Container">
-<h2>Login</h2>
-   
-
-@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+   <div class="user">
+    <img src="https://cdn0.iconfinder.com/data/icons/avatars-6/500/Avatar_boy_man_people_account_boss_client_male_person_user_work-256.png" alt="Profile Picture" class="profile-picture" />
+    <h2>Login</h2>
+   </div>
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
     {
         <div class="box">
-        <form action="/Login/Login" method="post">
+            <form action="/Login/Login" method="post">
 
                 <div class="text-field">
                     <div class="input-row">
-                        @Html.LabelFor(model => model.Username,"UserName:", new { @class = "input-label" })
+                        @Html.LabelFor(model => model.Username, "UserName:", new { @class = "input-label" })
                         @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
                     </div>
                     @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
@@ -69,7 +80,7 @@
 
                 <div class="text-field">
                     <div class="input-row">
-                        @Html.LabelFor(model => model.Password,"Password:", new { @class = "input-label" })
+                        @Html.LabelFor(model => model.Password, "Password:", new { @class = "input-label" })
                         @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
                     </div>
                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
@@ -88,19 +99,19 @@
 
                 </div>
 
-            <br />
+                <br />
 
-               <div class="button">
+                <div class="button">
                     <input type="submit" value="Login" class="btn btn-primary" />
-               </div>
+                </div>
 
-            <div class="signup">
-                <a asp-action="SignUp" style="color:black;">If not Registered? SignUp</a>
-            </div>
-        </form>
+                <div class="signup">
+                    <a asp-action="SignUp" style="color:black;">If not Registered? SignUp</a>
+                </div>
+            </form>
 
         </div>
 
 
-}
+    }
 </div>
