@@ -15,12 +15,6 @@ namespace InventoryManagementSystem.Models
         [Required(ErrorMessage = "Price is required")]
         public decimal Price { get; set; }
        
-        public DateTime Registrationdate { get; set; }
-
-        public string CreatedBy { get; set; }
-
-        public DateTime ModifiedDate { get; set; }
-
-        public string ModifiedBy { get; set; }
+       
     }
 }

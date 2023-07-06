@@ -5,12 +5,13 @@ using System.Diagnostics;
 using System.Data.SqlClient;
 using Microsoft.CodeAnalysis;
 using InventoryManagementSystem.Infrastructure;
+using InventoryManagementSystem.Repository;
 
 namespace InventoryManagementSystem.Controllers
 {
     public class HomeController : Controller
     {
-        
+
         private readonly ISignUpRepository signupRepository;
         private readonly IProductRepository productRepository;
         private readonly IPurchaseRepository purchaseRepository;
@@ -19,7 +20,7 @@ namespace InventoryManagementSystem.Controllers
         {
             this.signupRepository = signupRepository;
             this.productRepository = productRepository;
-            this.purchaseRepository = purchaseRepository;           
+            this.purchaseRepository = purchaseRepository;
         }
 
         public IActionResult SignUp()
@@ -27,6 +28,7 @@ namespace InventoryManagementSystem.Controllers
             return View();
         }
 
+        // SignUp
         [HttpPost]
         public async Task<IActionResult> SignUp(Users user)
         {
@@ -72,7 +74,7 @@ namespace InventoryManagementSystem.Controllers
             return View();
         }
 
-        //Login
+        // Index (Login)
         public IActionResult Index()
         {
             return View();
@@ -97,9 +99,7 @@ namespace InventoryManagementSystem.Controllers
                             HttpContext.Session.SetString("UserType", "Employee");
                             return RedirectToAction("DisplayPurchase", "Purchase");
                         }
-                     
                     }
-                   
                 }
 
                 return View(login);
@@ -109,25 +109,20 @@ namespace InventoryManagementSystem.Controllers
                 ModelState.AddModelError(string.Empty, ex.Message);
                 return View(login);
             }
-
         }
-
         //Logout
         public IActionResult Logout()
         {
-            
+
             HttpContext.Session.Clear();
             return RedirectToAction("Index");
         }
 
-        //purchase
-
+        // AddProduct
         public ActionResult AddProduct()
         {
             return View();
         }
-
-
         [HttpPost]
         public async Task<IActionResult> AddProduct(Product product)
         {
@@ -150,8 +145,7 @@ namespace InventoryManagementSystem.Controllers
             return View();
         }
 
-
-        //ProductDetails View
+        // ProductView
         public async Task<IActionResult> ProductView()
         {
             if (HttpContext.Session.GetString("UserType") != "Admin")
@@ -162,10 +156,10 @@ namespace InventoryManagementSystem.Controllers
             return View(products);
         }
 
-        //Update the product
-        public IActionResult UpdateProduct(int id)
+        // UpdateProduct
+        public async Task<IActionResult> UpdateProduct(int id)
         {
-            var existingProduct = productRepository.GetProductById(id);
+            var existingProduct = await productRepository.GetProductById(id);
 
             if (existingProduct == null)
             {
@@ -176,21 +170,22 @@ namespace InventoryManagementSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateProduct(Product updatedProduct)
+        public async Task<IActionResult> UpdateProduct(Product updatedProduct)
         {
             if (ModelState.IsValid)
             {
-                productRepository.EditProduct(updatedProduct);
+                await productRepository.EditProduct(updatedProduct);
 
                 return RedirectToAction("ProductView", new { id = updatedProduct.ProductId });
             }
 
             return View(updatedProduct);
         }
-        //Details button
-        public IActionResult ProductDetails(int id)
+
+        // ProductDetails
+        public async Task<IActionResult> ProductDetails(int id)
         {
-            Product existingProduct = productRepository.GetProductById(id);
+            Product existingProduct = await productRepository.GetProductById(id);
 
             if (existingProduct == null)
             {
@@ -199,13 +194,12 @@ namespace InventoryManagementSystem.Controllers
 
             return View(existingProduct);
         }
-
         public IActionResult Delete(int id)
         {
             productRepository.DeleteProduct(id);
             return RedirectToAction("ProductView");
         }
-      
+
         public IActionResult Privacy()
         {
             return View();
@@ -218,4 +212,5 @@ namespace InventoryManagementSystem.Controllers
         }
     }
 }
+
 

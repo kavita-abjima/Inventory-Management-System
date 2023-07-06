@@ -19,7 +19,7 @@ builder.Services.AddTransient(x => new MySqlConnection(builder.Configuration.Get
 // Add session services
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set the session timeout value as per your requirement
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
 });
 
 var app = builder.Build();
@@ -38,7 +38,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-// Enable session middleware
+
 app.UseSession();
 
 app.MapControllerRoute(
