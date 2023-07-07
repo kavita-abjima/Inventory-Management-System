@@ -1,0 +1,36 @@
+﻿@model Purchase
+
+@{
+    ViewBag.Title = "Update Product";
+}
+
+<h2>Update Product</h2>
+
+@using (Html.BeginForm("UpdatePurchaseProduct", "Purchase", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.PurchaseId)
+
+    <div class="form-group col-md-6">
+        @Html.LabelFor(model => model.Purchase_product, "Select Product")
+        @Html.DropDownListFor(model => model.Purchase_product, ViewBag.ProductList as SelectList, "Select product", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Purchase_product, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group col-md-6">
+        @Html.LabelFor(model => model.Purchase_quantity)
+        @Html.TextBoxFor(model => model.Purchase_quantity, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Purchase_quantity)
+    </div>
+    <div class="form-group col-md-6">
+        <label asp-for="PurchaseBy" class="control-label"></label>
+        <input asp-for="PurchaseBy" class="form-control" />
+        <span asp-validation-for="PurchaseBy" class="text-danger"></span>
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Purchase_price)
+        @Html.TextBoxFor(model => model.Purchase_price, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Purchase_price)
+    </div>
+
+    <input type="submit" value="Update" class="btn btn-primary" />
+}

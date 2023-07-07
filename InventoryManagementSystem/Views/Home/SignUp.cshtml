@@ -107,20 +107,18 @@
 
         <div class="text-field">
             <div class="input-row">
-                @Html.LabelFor(model => model.Password,"Password:", new { @class = "input-password-label" })
-                @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
-            </div>
-            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="text-field">
-            <div class="input-row">
                 @Html.LabelFor(model => model.Email,"Email:", new { @class = "input-Email-label" })
                 @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
             </div>
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
         </div>
-
+        <div class="text-field">
+            <div class="input-row">
+                @Html.LabelFor(model => model.Password, "Password:", new { @class = "input-label" })
+                @Html.TextBoxFor(model => model.Password, new { @class = "form-control", type = "password" })
+            </div>
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
         <div class="text-field">
             <div class="input-row">
                 @Html.LabelFor(model => model.UserType, "UserType:", new { @class = "input-label" })

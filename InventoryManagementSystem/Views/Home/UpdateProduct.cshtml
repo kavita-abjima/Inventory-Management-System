@@ -1,0 +1,31 @@
+﻿@model Product
+
+@{
+    ViewBag.Title = "Update Product";
+}
+
+<h2>Update Product</h2>
+
+@using (Html.BeginForm("UpdateProduct", "Home", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.ProductId)
+    <div>
+        @Html.LabelFor(model => model.ProductName)
+        @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control", @readonly = "readonly" })
+        @Html.ValidationMessageFor(model => model.ProductName)
+    </div>
+    <div>
+        @Html.LabelFor(model => model.Quantity)
+        @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Quantity)
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.Price)
+        @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Price)
+    </div>
+    <br/>
+    <input type="submit" value="Update" class="btn btn-primary" />
+    <a asp-action="ProductView">Back</a>
+}

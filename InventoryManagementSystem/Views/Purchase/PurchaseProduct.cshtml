@@ -1,0 +1,68 @@
+﻿@model InventoryManagementSystem.Models.Purchase
+
+@{
+    ViewData["Title"] = "PurchaseProduct";
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".alert-danger").delay(3000).fadeOut(500);
+        });
+    </script>
+}
+
+<div style="background: linear-gradient(to bottom, #FFC0CB, #FFA07A); padding: 20px;">
+    <h2>Add Product</h2>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <form id="purchaseForm" asp-action="PurchaseProduct" asp-controller="Purchase" method="post">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div>
+                @Html.LabelFor(model => model.Purchase_product,"ProductName")
+                @Html.DropDownListFor(model => model.Purchase_product, TempData["Purchase_product"] as SelectList, "Select Product", new { @class = "form-control" })
+                <span asp-validation-for="Purchase_product" class="text-danger"></span>
+            </div>
+
+            <div>
+                @Html.LabelFor(model => model.Purchase_quantity,"Quantity")
+                @Html.TextBoxFor(model => model.Purchase_quantity, new { @class = "form-control",type="number" })
+                <span asp-validation-for="Purchase_quantity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PurchaseBy" class="control-label"></label>
+                <input asp-for="PurchaseBy" class="form-control" required />
+                <span asp-validation-for="PurchaseBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PurchaseDate" class="control-label"></label>
+                <input asp-for="PurchaseDate" class="form-control" type="date" required />
+                <span asp-validation-for="PurchaseDate" class="text-danger"></span>
+            </div>
+
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
+                <a asp-action="DisplayPurchase">Back to DisplayPurchase</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById("purchaseForm").addEventListener("submit", function (event) {
+        if (!this.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        this.classList.add('was-validated');
+    });
+</script>

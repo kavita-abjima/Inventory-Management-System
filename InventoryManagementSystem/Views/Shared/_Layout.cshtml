@@ -7,6 +7,42 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/InventoryManagementSystem.styles.css" asp-append-version="true" />
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-y: auto; /* Add scrollbar when content overflows */
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+        }
+
+        main {
+            flex: 1;
+            padding-bottom: 50px; /* Adjust as needed to prevent content from overlapping the footer */
+            margin-top: 56px; /* Adjust as needed to account for the header height */
+        }
+
+        footer {
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+            background-color: #f8f9fa; /* Adjust as needed */
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+
+
+
 </head>
 <body>
     <header>

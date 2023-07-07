@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using Microsoft.CodeAnalysis;
 using InventoryManagementSystem.Infrastructure;
 using InventoryManagementSystem.Repository;
+using NuGet.Protocol.Core.Types;
 
 namespace InventoryManagementSystem.Controllers
 {
@@ -14,13 +15,13 @@ namespace InventoryManagementSystem.Controllers
 
         private readonly ISignUpRepository signupRepository;
         private readonly IProductRepository productRepository;
-        private readonly IPurchaseRepository purchaseRepository;
+        
 
-        public HomeController(ISignUpRepository signupRepository, IProductRepository productRepository, IPurchaseRepository purchaseRepository)
+        public HomeController(ISignUpRepository signupRepository, IProductRepository productRepository)
         {
             this.signupRepository = signupRepository;
             this.productRepository = productRepository;
-            this.purchaseRepository = purchaseRepository;
+            
         }
 
         public IActionResult SignUp()
@@ -48,10 +49,12 @@ namespace InventoryManagementSystem.Controllers
                     {
                         if (user.UserType == "Admin")
                         {
+                            TempData["SuccessMessage"] = "Sign-Up successful!";
                             return RedirectToAction("ProductView");
                         }
                         else if (user.UserType == "Employee")
                         {
+                            TempData["SuccessMessage"] = "Sign-Up successful!";
                             return RedirectToAction("DisplayPurchase", "Purchase");
                         }
                         else
@@ -91,11 +94,13 @@ namespace InventoryManagementSystem.Controllers
                     {
                         if (login.UserType == "Admin")
                         {
+                            TempData["SuccessMessage"] = "Login-in successful!";
                             HttpContext.Session.SetString("UserType", "Admin");
                             return RedirectToAction("ProductView");
                         }
                         else if (login.UserType == "Employee")
                         {
+                            TempData["SuccessMessage"] = "Login-in successful!";
                             HttpContext.Session.SetString("UserType", "Employee");
                             return RedirectToAction("DisplayPurchase", "Purchase");
                         }
@@ -198,6 +203,11 @@ namespace InventoryManagementSystem.Controllers
         {
             productRepository.DeleteProduct(id);
             return RedirectToAction("ProductView");
+        }
+        public async Task<IActionResult> ProductReport()
+        {
+            var productList = await productRepository.GetAllProductsAsync();
+            return View(productList);
         }
 
         public IActionResult Privacy()
