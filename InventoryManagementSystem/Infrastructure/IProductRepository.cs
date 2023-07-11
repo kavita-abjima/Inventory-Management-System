@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryManagementSystem.Infrastructure
 {
@@ -13,7 +14,8 @@ namespace InventoryManagementSystem.Infrastructure
         public Task<List<string>> GetAvailableProductNames();
 
         public Task<int> GetProductQuantityByNameAsync(string productName);
-        public Task<IEnumerable<Product>> GetAllProductsAsync();
+        public Task<IEnumerable<Product>> GetAllProducts();
+        public Task<IEnumerable<Product>> GetAllProductsAsync(DateTime startDate, DateTime endDate);
 
     }
 }

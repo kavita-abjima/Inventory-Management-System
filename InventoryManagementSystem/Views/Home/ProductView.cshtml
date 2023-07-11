@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<InventoryManagementSystem.Models.Product>
-
+@{
+    Layout = "AdminLayout";
+}
 @{
     ViewData["Title"] = "ProductView";
 }
@@ -20,9 +22,7 @@
 <div class="d-flex justify-content-between align-items-center">
     <h1>Products</h1>
    
-    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Logout">
-        <button class="btn btn-danger">Logout</button>
-    </a>
+   
 </div>
 <form asp-action="AddProduct" method="get" asp-controller="Home">
     <button type="submit" class="btn btn-success">Add Product</button>
@@ -75,6 +75,5 @@
     </tbody>
    
 </table>
-<a href="@Url.Action("ProductReport", "Home")">View Product Report</a>
 
 

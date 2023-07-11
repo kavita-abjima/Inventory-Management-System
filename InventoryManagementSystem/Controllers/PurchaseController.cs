@@ -28,7 +28,7 @@ namespace InventoryManagementSystem.Controllers
         {
             if (HttpContext.Session.GetString("UserType") != "Employee")
             {
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
             List<Purchase> purchase = await _purchaseRepository.GetAllPurchase();
             return View(purchase);
@@ -129,5 +129,17 @@ namespace InventoryManagementSystem.Controllers
             return RedirectToAction("DisplayPurchase");
         }
 
+        public async Task<IActionResult> PurchaseReport()
+        {
+            var productList = await _purchaseRepository.GetAllPurchaseProducts();
+            return View(productList);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PurchaseReport(DateTime startDate, DateTime endDate)
+        {
+            var productList = await _purchaseRepository.GetAllPurchaseProductsAsync(startDate, endDate);
+            return View(productList);
+        }
     }
 }

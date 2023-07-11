@@ -204,11 +204,20 @@ namespace InventoryManagementSystem.Controllers
             productRepository.DeleteProduct(id);
             return RedirectToAction("ProductView");
         }
+
         public async Task<IActionResult> ProductReport()
         {
-            var productList = await productRepository.GetAllProductsAsync();
+            var productList = await productRepository.GetAllProducts();
             return View(productList);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ProductReport(DateTime startDate, DateTime endDate)
+        {
+            var productList = await productRepository.GetAllProductsAsync(startDate, endDate);
+            return View(productList);
+        }
+
 
         public IActionResult Privacy()
         {

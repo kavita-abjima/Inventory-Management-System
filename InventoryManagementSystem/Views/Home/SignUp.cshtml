@@ -1,77 +1,98 @@
 ﻿@model InventoryManagementSystem.Models.Users
 
 @{
-    ViewBag.Title = "Signup";
+    ViewBag.Title = "SignUp";
 }
 
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<style>
+    .Container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80vh;
+        background-color: #f2f2f2;
+    }
 
-<head>
-    <style>
-        .Container {
-            position: relative;
-            height: 80vh; 
-            width: 90%;
-            background-color: #A7ECEE;
-            margin: 0 auto; 
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+    .user {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .profile-picture {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        color: #333;
+    }
+
+    .box {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-field {
+        margin-bottom: 20px;
+    }
+
+    .input-row {
+        display: flex;
+        align-items: center;
+    }
+
+    .input-label {
+        flex: 1;
+        font-weight: bold;
+        color: #555;
+        margin-right: 10px;
+    }
+
+    .form-control {
+        flex: 2;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .button {
+        text-align: center;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+        .btn:hover {
+            background-color: #45a049;
         }
 
-        .profile-picture {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            margin-bottom: 20px;
+    .signup {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+        .signup a {
+            color: black;
+            text-decoration: none;
         }
 
-
-        .text-field {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .input-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .input-label {
-            margin-right: 10px;
-        }
-
-        .input-password-label{
-            margin-right: 16px;
-        }
-
-        .input-Email-label {
-            margin-right:40px;
-        }
-
-        .button {
-            position: relative;
-            right: 20px;
-            bottom: 25px;
-        }
-
-        .Login {
-            position: relative;
-            left: 32px;
-            bottom: 15px;
-        }
-
-        .user {
-            position: relative;
-            left: 30px;
-        }
-    </style>
-</head>
-
+            .signup a:hover {
+                text-decoration: underline;
+            }
+</style>
 @if (!ViewData.ModelState.IsValid)
 {
     <div id="errorMessage" class="alert alert-danger">
@@ -85,63 +106,66 @@
     <script>
         setTimeout(function () {
             $('#errorMessage').fadeOut('slow');
-        }, 2000); 
+        }, 2000);
     </script>
 }
 
-
 <div class="Container">
-    <img src="https://cdn0.iconfinder.com/data/icons/avatars-6/500/Avatar_boy_man_people_account_boss_client_male_person_user_work-256.png" alt="Profile Picture" class="profile-picture" />
-    
-    <h2>Register</h2>
 
-@using (Html.BeginForm("SignUp", "Home", FormMethod.Post))
-{
-        <div class="text-field">
-            <div class="input-row">
-                @Html.LabelFor(model => model.Username,"UserName:", new { @class = "input-label" })
-                @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+    @using (Html.BeginForm("SignUp", "Home", FormMethod.Post))
+    {
+        <div class="box">
+            <div style="padding-left:120px">
+                <img src="https://cdn0.iconfinder.com/data/icons/avatars-6/500/Avatar_boy_man_people_account_boss_client_male_person_user_work-256.png" alt="Profile Picture" class="profile-picture" />
+
+                <h2 style="padding-left:20px">Login</h2>
             </div>
-            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
-        </div>
+           
 
-        <div class="text-field">
-            <div class="input-row">
-                @Html.LabelFor(model => model.Email,"Email:", new { @class = "input-Email-label" })
-                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                <div class="text-field">
+                    <div class="input-row">
+                        @Html.LabelFor(model => model.Username, "UserName:", new { @class = "input-label" })
+                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                </div>
+                <div class="text-field">
+                    <div class="input-row">
+                        @Html.LabelFor(model => model.Email,"Email:", new { @class = "input-label" })
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+                <div class="text-field">
+                    <div class="input-row">
+                        @Html.LabelFor(model => model.Password, "Password:", new { @class = "input-label" })
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", type = "Password" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="text-field">
+                    <div class="input-row">
+                        @Html.LabelFor(model => model.UserType, "UserType:", new { @class = "input-label" })
+                        <select id="UserType" name="UserType" class="form-control" style="width: 210px; padding:8px">
+                            <option value="">Select User Type</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Employee">Employee</option>
+                        </select>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
+
+                </div>
+
+                <br />
+
+            <div class="button">
+                <input type="submit" value="Register" class="btn btn-success" />
             </div>
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-        </div>
-        <div class="text-field">
-            <div class="input-row">
-                @Html.LabelFor(model => model.Password, "Password:", new { @class = "input-label" })
-                @Html.TextBoxFor(model => model.Password, new { @class = "form-control", type = "password" })
+
+            <div class="Login">
+                <a asp-action="Index">Allready Registered ? Login</a>
             </div>
-            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
         </div>
-        <div class="text-field">
-            <div class="input-row">
-                @Html.LabelFor(model => model.UserType, "UserType:", new { @class = "input-label" })
-                <select id="UserType" name="UserType" class="form-control" style="width: 210px; padding:8px">
-                    <option value="">Select User Type</option>
-                    <option value="Admin">Admin</option>
-                    <option value="Employee">Employee</option>
-                </select>
-</div>
-            @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
-
-        </div>
-
-    <br/>
-
-     <div class="button">
-        <input type="submit" value="Register" class="btn btn-success" />
-    </div>
-
-    <div class="Login">
-        <a asp-action="Index">Allready Registered ? Login</a>
-    </div>
-
-
-}
+    }
 </div>

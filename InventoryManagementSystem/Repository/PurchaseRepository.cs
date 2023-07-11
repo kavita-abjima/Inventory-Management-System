@@ -97,6 +97,20 @@ namespace InventoryManagementSystem.Repository
             }
         }
 
-      
+        public async Task<IEnumerable<Purchase>> GetAllPurchaseProducts()
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                return await connection.QueryAsync<Purchase>("GetAllProductsFromPurchase", commandType: CommandType.StoredProcedure);
+            }
+        }
+        public async Task<IEnumerable<Purchase>> GetAllPurchaseProductsAsync(DateTime startDate, DateTime endDate)
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                var parameters = new { StartDate = startDate, EndDate = endDate };
+                return await connection.QueryAsync<Purchase>("GetPurchaseReportByDateRange", parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 }

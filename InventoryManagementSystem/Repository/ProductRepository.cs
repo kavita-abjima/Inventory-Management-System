@@ -114,12 +114,21 @@ namespace InventoryManagementSystem.Repository
         }
 
         //To show the report of product
-        public async Task<IEnumerable<Product>> GetAllProductsAsync()
+        public async Task<IEnumerable<Product>> GetAllProducts()
         {
             using (var connection = _context.CreateConnection())
             {
                 return await connection.QueryAsync<Product>("ProductReport", commandType: CommandType.StoredProcedure);
             }
         }
+        public async Task<IEnumerable<Product>> GetAllProductsAsync(DateTime startDate, DateTime endDate)
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                var parameters = new { StartDate = startDate, EndDate = endDate };
+                return await connection.QueryAsync<Product>("GetProductReportByDateRange", parameters, commandType: CommandType.StoredProcedure);
+            }
+        }
+
     }
 }

@@ -12,6 +12,10 @@ namespace InventoryManagementSystem.Infrastructure
         //public bool UpdatePurchaseProduct(Purchase updatedProduct);
 
         public void DeletePurchase(int purchaseId);
-        
+        public Task<IEnumerable<Purchase>> GetAllPurchaseProducts();
+
+        public Task<IEnumerable<Purchase>> GetAllPurchaseProductsAsync(DateTime startDate, DateTime endDate);
+
+
     }
 }

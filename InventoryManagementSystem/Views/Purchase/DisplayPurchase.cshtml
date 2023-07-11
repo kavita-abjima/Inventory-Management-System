@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "DisplayPurchase";
 }
+@{
+    Layout = "PurchaseLayout";
+}
 @if (TempData["SuccessMessage"] != null)
 {
     <div id="successMessage" class="alert alert-success">
@@ -21,13 +24,10 @@
 
 <div class="d-flex justify-content-between align-items-center">
     <h1>DisplayPurchase</h1>
-    
-    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Logout">
-        <button class="btn btn-danger">Logout</button>
-    </a>
+
 </div>
 <div>
-<a asp-action="PurchaseProduct" method="get" asp-controller="Purchase" class="btn btn-primary">
+<a asp-action="PurchaseProduct" method="get" asp-controller="Purchase" class="btn btn-success">
     Purchase
 </a>
 </div>
