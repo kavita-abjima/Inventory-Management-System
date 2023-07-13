@@ -104,7 +104,7 @@ namespace InventoryManagementSystem.Controllers
                             HttpContext.Session.SetString("UserType", "Employee");
                             return RedirectToAction("DisplayPurchase", "Purchase");
                         }
-                    }
+                    } 
                 }
 
                 return View(login);

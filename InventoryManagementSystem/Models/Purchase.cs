@@ -15,7 +15,7 @@ namespace InventoryManagementSystem.Models
         public int Purchase_quantity { get; set; }
         [Required]
         public decimal Purchase_price { get; set; }
-
+        [Required]
         [Display(Name = "Purchase Date")]
         
         [DataType(DataType.Date, ErrorMessage = "Please enter a valid date.")]

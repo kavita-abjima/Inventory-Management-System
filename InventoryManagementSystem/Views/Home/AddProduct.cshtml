@@ -22,7 +22,7 @@
 
     <div class="form-group col-md-6">
         @Html.LabelFor(model => model.Price)
-        @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+        @Html.TextBoxFor(model => model.Price, new { @class = "form-control",type = "number" })
         @Html.ValidationMessageFor(model => model.Price,"", new { @class = "text-danger" })
     </div>
     <br />
